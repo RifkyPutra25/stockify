@@ -18,10 +18,10 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="bg-white p-6 rounded-lg shadow">
+    <div class="grid grid-cols-3 gap-4 mb-6 items-stretch">
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col">
             <h2 class="text-lg font-semibold mb-4 text-green-700">Barang Masuk</h2>
-            <form action="{{ route('stock-transactions.in') }}" method="POST" class="space-y-3">
+            <form action="{{ route('stock-transactions.in') }}" method="POST" class="space-y-3 flex flex-col flex-1">
                 @csrf
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-900">Produk</label>
@@ -44,15 +44,15 @@
                     <label class="block mb-1 text-sm font-medium text-gray-900">Catatan</label>
                     <input type="text" name="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 </div>
-                <button type="submit" class="text-white bg-blue-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full">
+                <button type="submit" class="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
                     Catat Barang Masuk
                 </button>
             </form>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col">
             <h2 class="text-lg font-semibold mb-4 text-red-700">Barang Keluar</h2>
-            <form action="{{ route('stock-transactions.out') }}" method="POST" class="space-y-3">
+            <form action="{{ route('stock-transactions.out') }}" method="POST" class="space-y-3 flex flex-col flex-1">
                 @csrf
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-900">Produk</label>
@@ -75,8 +75,35 @@
                     <label class="block mb-1 text-sm font-medium text-gray-900">Catatan</label>
                     <input type="text" name="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 </div>
-                <button type="submit" class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full">
+                <button type="submit" class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
                     Catat Barang Keluar
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col">
+            <h2 class="text-lg font-semibold mb-4 text-yellow-700">Stock Opname</h2>
+            <form action="{{ route('stock-transactions.opname') }}" method="POST" class="space-y-3 flex flex-col flex-1">
+                @csrf
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-900">Produk</label>
+                    <select name="product_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                        <option value="">-- Pilih Produk --</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->name }} (Sistem: {{ $product->stock }})</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-900">Stok Fisik (Hasil Hitung)</label>
+                    <input type="number" name="actual_stock" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-900">Catatan</label>
+                    <input type="text" name="notes" placeholder="Opsional" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                </div>
+                <button type="submit" class="text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
+                    Catat Penyesuaian
                 </button>
             </form>
         </div>
