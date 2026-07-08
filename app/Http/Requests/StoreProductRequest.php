@@ -12,17 +12,21 @@ class StoreProductRequest extends FormRequest
     }
 
     public function rules(): array
-    {
-        return [
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:255|unique:products,sku,' . $this->product?->id,
-            'description' => 'nullable|string',
-            'purchase_price' => 'required|numeric|min:0',
-            'selling_price' => 'required|numeric|min:0',
-            'minimum_stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|max:2048',
-        ];
-    }
+{
+    return [
+        'category_id' => 'required|exists:categories,id',
+        'supplier_id' => 'required|exists:suppliers,id',
+        'name' => 'required|string|max:255',
+        'sku' => 'required|string|max:255|unique:products,sku,' . $this->product?->id,
+        'description' => 'nullable|string',
+        'purchase_price' => 'required|numeric|min:0',
+        'selling_price' => 'required|numeric|min:0',
+        'minimum_stock' => 'required|integer|min:0',
+        'image' => 'nullable|image|max:2048',
+        'attribute_name' => 'nullable|array',
+        'attribute_name.*' => 'nullable|string|max:100',
+        'attribute_value' => 'nullable|array',
+        'attribute_value.*' => 'nullable|string|max:100',
+    ];
+}
 }

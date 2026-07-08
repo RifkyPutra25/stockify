@@ -90,6 +90,12 @@
                         <span>Pengguna</span>
                     </a>
                 </li>
+                <li>
+    <a href="{{ route('activity-logs.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs('activity-logs.*') ? 'bg-blue-700 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100' }}">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Aktivitas Pengguna</span>
+    </a>
+</li>
             </ul>
             @endif
 
@@ -107,6 +113,12 @@
                         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4M16 17H4m0 0l4 4m-4-4l4-4"/></svg>
                         <span>Transaksi Stok</span>
                     </a>
+                </li>
+                <li>
+                 <a href="{{ route('reports.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs('reports.*') ? 'bg-blue-700 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m6 10v-4m-3 4V3M4 21h16"/></svg>
+                        <span>Laporan</span>
+                    </a> 
                 </li>
             </ul>
             @endif

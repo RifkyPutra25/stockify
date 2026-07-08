@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
+use App\Models\ActivityLog;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -20,7 +21,10 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        Category::create($request->validated());
+        $category = Category::create($request->validated());
+
+        ActivityLog::record('create', "Menambahkan kategori: {$category->name}");
+
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
 
@@ -32,12 +36,18 @@ class CategoryController extends Controller
     public function update(StoreCategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
+
+        ActivityLog::record('update', "Memperbarui kategori: {$category->name}");
+
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
     public function destroy(Category $category)
     {
+        ActivityLog::record('delete', "Menghapus kategori: {$category->name}");
+
         $category->delete();
+
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }

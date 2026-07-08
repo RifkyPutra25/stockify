@@ -114,9 +114,31 @@
             @enderror
         </div>
 
+        <div>
+            <label class="block mb-1 text-sm font-medium text-gray-900">Atribut Produk (opsional)</label>
+            <div id="attribute-list" class="space-y-2">
+                @forelse ($product->attributes as $attr)
+                    <div class="flex gap-2 attribute-row">
+                        <input type="text" name="attribute_name[]" value="{{ $attr->name }}" placeholder="Nama (misal: Ukuran)"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-1/2">
+                        <input type="text" name="attribute_value[]" value="{{ $attr->value }}" placeholder="Nilai (misal: XL)"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-1/2">
+                    </div>
+                @empty
+                    <div class="flex gap-2 attribute-row">
+                        <input type="text" name="attribute_name[]" placeholder="Nama (misal: Ukuran)"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-1/2">
+                        <input type="text" name="attribute_value[]" placeholder="Nilai (misal: XL)"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-1/2">
+                    </div>
+                @endforelse
+            </div>
+            <button type="button" id="add-attribute" class="mt-2 text-sm text-blue-700 hover:underline">+ Tambah Atribut</button>
+        </div>
+
         <div class="flex gap-2">
             <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                    class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
                 Update
             </button>
             <a href="{{ route('products.index') }}"
@@ -126,4 +148,17 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('add-attribute').addEventListener('click', function () {
+        const list = document.getElementById('attribute-list');
+        const row = document.createElement('div');
+        row.className = 'flex gap-2 attribute-row';
+        row.innerHTML = `
+            <input type="text" name="attribute_name[]" placeholder="Nama (misal: Ukuran)" class="bg-gray-50 border border-gray-300 text-sm rounded-lg p-2.5 w-1/2">
+            <input type="text" name="attribute_value[]" placeholder="Nilai (misal: XL)" class="bg-gray-50 border border-gray-300 text-sm rounded-lg p-2.5 w-1/2">
+        `;
+        list.appendChild(row);
+    });
+</script>
 @endsection

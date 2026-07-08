@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSupplierRequest;
+use App\Models\ActivityLog;
 use App\Models\Supplier;
 
 class SupplierController extends Controller
@@ -20,7 +21,10 @@ class SupplierController extends Controller
 
     public function store(StoreSupplierRequest $request)
     {
-        Supplier::create($request->validated());
+        $supplier = Supplier::create($request->validated());
+
+        ActivityLog::record('create', "Menambahkan supplier: {$supplier->name}");
+
         return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil ditambahkan.');
     }
 
@@ -32,12 +36,18 @@ class SupplierController extends Controller
     public function update(StoreSupplierRequest $request, Supplier $supplier)
     {
         $supplier->update($request->validated());
+
+        ActivityLog::record('update', "Memperbarui supplier: {$supplier->name}");
+
         return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil diperbarui.');
     }
 
     public function destroy(Supplier $supplier)
     {
+        ActivityLog::record('delete', "Menghapus supplier: {$supplier->name}");
+
         $supplier->delete();
+
         return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil dihapus.');
     }
 }

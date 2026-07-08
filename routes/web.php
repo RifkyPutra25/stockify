@@ -6,6 +6,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,14 +58,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Khusus Admin: kelola kategori & supplier
+// Khusus Admin: kelola kategori, supplier, pengguna, dan aktivitas pengguna
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('suppliers', SupplierController::class);
-    Route::resource('users', UserController::class); 
+    Route::resource('users', UserController::class);
+
+    Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
 });
 
-// Admin & Manajer Gudang: kelola produk & transaksi stok
+// Admin & Manajer Gudang: kelola produk, transaksi stok, dan laporan
 Route::middleware(['auth', 'role:admin,manajer_gudang'])->group(function () {
     Route::resource('products', ProductController::class);
 
@@ -71,6 +75,10 @@ Route::middleware(['auth', 'role:admin,manajer_gudang'])->group(function () {
     Route::post('stock-transactions/in', [StockTransactionController::class, 'storeIn'])->name('stock-transactions.in');
     Route::post('stock-transactions/out', [StockTransactionController::class, 'storeOut'])->name('stock-transactions.out');
     Route::post('stock-transactions/opname', [StockTransactionController::class, 'opname'])->name('stock-transactions.opname');
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
+    Route::get('reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
 });
 
 // Admin, Manajer Gudang, Staff Gudang: konfirmasi transaksi

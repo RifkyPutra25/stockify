@@ -57,7 +57,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <!-- Perbandingan Masuk/Keluar -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-1">
-            <h2 class="text-sm font-semibold text-gray-700 mb-4">Barang Masuk vs Keluar (Bulan Ini)</h2>
+            <h2 class="text-sm font-semibold text-gray-700 mb-4">Barang Masuk Dan Keluar (Bulan Ini)</h2>
             @php
                 $maxVal = max($stockInThisMonth, $stockOutThisMonth, 1);
             @endphp

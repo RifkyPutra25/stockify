@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Models\ActivityLog;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -11,7 +12,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'supplier'])->latest()->paginate(10);
+        $products = Product::with(['category', 'supplier', 'attributes'])->latest()->paginate(10);
         return view('products.index', compact('products'));
     }
 
@@ -30,7 +31,11 @@ class ProductController extends Controller
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
-        Product::create($data);
+        $product = Product::create($data);
+
+        $this->syncAttributes($product, $request);
+
+        ActivityLog::record('create', "Menambahkan produk: {$product->name}");
 
         return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
@@ -39,6 +44,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $suppliers = Supplier::all();
+        $product->load('attributes');
         return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
@@ -52,12 +58,40 @@ class ProductController extends Controller
 
         $product->update($data);
 
+        $this->syncAttributes($product, $request);
+
+        ActivityLog::record('update', "Memperbarui produk: {$product->name}");
+
         return redirect()->route('products.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
     public function destroy(Product $product)
     {
+        ActivityLog::record('delete', "Menghapus produk: {$product->name}");
+
         $product->delete();
+
         return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    /**
+     * Simpan ulang atribut produk (hapus yang lama, buat yang baru)
+     * berdasarkan input attribute_name[] dan attribute_value[] dari form.
+     */
+    private function syncAttributes(Product $product, StoreProductRequest $request): void
+    {
+        $product->attributes()->delete();
+
+        $names = $request->input('attribute_name', []);
+        $values = $request->input('attribute_value', []);
+
+        foreach ($names as $i => $name) {
+            if (!empty($name) && isset($values[$i]) && $values[$i] !== '') {
+                $product->attributes()->create([
+                    'name' => $name,
+                    'value' => $values[$i],
+                ]);
+            }
+        }
     }
 }

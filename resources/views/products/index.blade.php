@@ -40,7 +40,18 @@
                                 <div class="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-xs text-gray-400">-</div>
                             @endif
                         </td>
-                        <td class="px-6 py-4 font-medium text-gray-900">{{ $product->name }}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900">
+    {{ $product->name }}
+    @if ($product->attributes->isNotEmpty())
+        <div class="mt-1 flex flex-wrap gap-1">
+            @foreach ($product->attributes as $attr)
+                <span class="px-2 py-0.5 rounded-full text-xs font-normal bg-gray-100 text-gray-600">
+                    {{ $attr->name }}: {{ $attr->value }}
+                </span>
+            @endforeach
+        </div>
+    @endif
+</td>
                         <td class="px-6 py-4">{{ $product->sku }}</td>
                         <td class="px-6 py-4">{{ $product->category->name }}</td>
                         <td class="px-6 py-4">{{ $product->supplier->name }}</td>
