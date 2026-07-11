@@ -14,8 +14,8 @@
     <!-- Stat Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Total Produk</p>
@@ -44,8 +44,8 @@
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-rose-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Stok Menipis</p>
@@ -65,7 +65,7 @@
                 <div>
                     <div class="flex justify-between text-xs mb-1">
                         <span class="text-gray-500">Masuk</span>
-                        <span class="font-semibold text-green-700">{{ $stockInThisMonth }}</span>
+                        <span class="font-semibold text-emerald-600">{{ $stockInThisMonth }}</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2.5">
                         <div class="bg-green-600 h-2.5 rounded-full" style="width: {{ ($stockInThisMonth / $maxVal) * 100 }}%"></div>
@@ -74,7 +74,7 @@
                 <div>
                     <div class="flex justify-between text-xs mb-1">
                         <span class="text-gray-500">Keluar</span>
-                        <span class="font-semibold text-red-700">{{ $stockOutThisMonth }}</span>
+                        <span class="font-semibold text-rose-600">{{ $stockOutThisMonth }}</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2.5">
                         <div class="bg-red-600 h-2.5 rounded-full" style="width: {{ ($stockOutThisMonth / $maxVal) * 100 }}%"></div>
@@ -99,7 +99,7 @@
                         @forelse ($lowStockProducts as $product)
                             <tr class="border-b last:border-0">
                                 <td class="py-2.5 pr-4 font-medium text-gray-800">{{ $product->name }}</td>
-                                <td class="py-2.5 pr-4 text-red-600 font-semibold">{{ $product->stock }}</td>
+                                <td class="py-2.5 pr-4 text-rose-600 font-semibold">{{ $product->stock }}</td>
                                 <td class="py-2.5 pr-4">{{ $product->minimum_stock }}</td>
                             </tr>
                         @empty
@@ -107,6 +107,33 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafik Stok per Kategori & Aktivitas Pengguna Terbaru -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h2 class="text-sm font-semibold text-gray-700 mb-4">Grafik Stok Barang per Kategori</h2>
+            <canvas id="stockChart" height="200"></canvas>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h2 class="text-sm font-semibold text-gray-700 mb-4">Aktivitas Pengguna Terbaru</h2>
+            <div class="space-y-3">
+                @forelse ($recentActivities as $log)
+                    <div class="flex items-start gap-3 text-sm">
+                        <div class="w-2 h-2 mt-1.5 rounded-full
+                            {{ $log->action === 'create' ? 'bg-emerald-500' : ($log->action === 'update' ? 'bg-teal-500' : 'bg-rose-500') }}">
+                        </div>
+                        <div>
+                            <p class="text-gray-700">{{ $log->description }}</p>
+                            <p class="text-xs text-gray-400">{{ $log->user->name ?? '-' }} &middot; {{ $log->created_at->diffForHumans() }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-400">Belum ada aktivitas.</p>
+                @endforelse
             </div>
         </div>
     </div>
@@ -132,11 +159,11 @@
                             <td class="py-2.5 pr-4 font-medium text-gray-800">{{ $trx->product->name }}</td>
                             <td class="py-2.5 pr-4">
                                 @if($trx->type === 'in')
-                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">Masuk</span>
+                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600">Masuk</span>
                                 @elseif($trx->type === 'out')
-                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700">Keluar</span>
+                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-rose-50 text-rose-600">Keluar</span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700">Penyesuaian</span>
+                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-amber-600">Penyesuaian</span>
                                 @endif
                             </td>
                             <td class="py-2.5 pr-4">{{ $trx->quantity }}</td>
@@ -150,12 +177,40 @@
         </div>
     </div>
 
+    <script>
+        const ctx = document.getElementById('stockChart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($stockByCategory->pluck('name')) !!},
+                datasets: [{
+                    label: 'Jumlah Stok',
+                    data: {!! json_encode($stockByCategory->pluck('products_sum_stock')) !!},
+                    borderColor: '#2563eb',
+                    backgroundColor: '#2563eb',
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#2563eb',
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Jumlah Stok (unit)' } },
+                    x: { title: { display: true, text: 'Kategori' } }
+                }
+            }
+        });
+    </script>
+
 @elseif(auth()->user()->role === 'manajer_gudang')
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Total Produk</p>
@@ -163,8 +218,8 @@
             </div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Masuk Hari Ini</p>
@@ -172,8 +227,8 @@
             </div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 17H4m0 0l4 4m-4-4l4-4"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-rose-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 17H4m0 0l4 4m-4-4l4-4"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Keluar Hari Ini</p>
@@ -206,7 +261,7 @@
                     @forelse ($lowStockProducts as $product)
                         <tr class="border-b last:border-0">
                             <td class="py-2.5 pr-4 font-medium text-gray-800">{{ $product->name }}</td>
-                            <td class="py-2.5 pr-4 text-red-600 font-semibold">{{ $product->stock }}</td>
+                            <td class="py-2.5 pr-4 text-rose-600 font-semibold">{{ $product->stock }}</td>
                             <td class="py-2.5 pr-4">{{ $product->minimum_stock }}</td>
                         </tr>
                     @empty
@@ -230,8 +285,8 @@
             </div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Kamu Konfirmasi Hari Ini</p>

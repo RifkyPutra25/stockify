@@ -21,7 +21,7 @@
                     @endforeach
                 </select>
                 @error('category_id')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -37,7 +37,7 @@
                     @endforeach
                 </select>
                 @error('supplier_id')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                 @enderror
             </div>
         </div>
@@ -47,7 +47,7 @@
             <input type="text" name="name" id="name" value="{{ old('name') }}"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
             @error('name')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
             @enderror
         </div>
 
@@ -56,7 +56,7 @@
             <input type="text" name="sku" id="sku" value="{{ old('sku') }}"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
             @error('sku')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
             @enderror
         </div>
 
@@ -65,7 +65,7 @@
             <textarea name="description" id="description" rows="3"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">{{ old('description') }}</textarea>
             @error('description')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
             @enderror
         </div>
 
@@ -75,7 +75,7 @@
                 <input type="number" step="0.01" name="purchase_price" id="purchase_price" value="{{ old('purchase_price', 0) }}"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 @error('purchase_price')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -84,7 +84,7 @@
                 <input type="number" step="0.01" name="selling_price" id="selling_price" value="{{ old('selling_price', 0) }}"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 @error('selling_price')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -93,7 +93,7 @@
                 <input type="number" name="minimum_stock" id="minimum_stock" value="{{ old('minimum_stock', 0) }}"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 @error('minimum_stock')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                 @enderror
             </div>
         </div>
@@ -103,7 +103,7 @@
             <input type="file" name="image" id="image" accept="image/*"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
             @error('image')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
             @enderror
         </div>
 
@@ -115,7 +115,7 @@
             <input type="text" name="attribute_value[]" placeholder="Ukuran (misal: XL)" class="bg-gray-50 border border-gray-300 text-sm rounded-lg p-2.5 w-1/2">
         </div>
     </div>
-    <button type="button" id="add-attribute" class="mt-2 text-sm text-blue-700 hover:underline">+ Tambah Atribut</button>
+    <button type="button" id="add-attribute" class="mt-2 text-sm text-teal-600 hover:underline">+ Tambah Atribut</button>
 </div>
 
 <script>
@@ -133,7 +133,7 @@
 
         <div class="flex gap-2">
             <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                    class="text-white bg-teal-600 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
                 Simpan
             </button>
             <a href="{{ route('products.index') }}"

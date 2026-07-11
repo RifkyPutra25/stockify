@@ -1,82 +1,101 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockTransactionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Routes for Flowbite template
+| Web Routes
 |--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
 */
 
 Route::get('/', function () {
-    return view('example.index', ['title' => 'Dashboard']);
-})->name('index');
+    return redirect()->route('login');
+});
 
-Route::get('layouts/stacked', function () {
-    return view('example.content.layouts.stacked', ['title' => 'Stacked Layout']);
-})->name('layouts.stacked');
+Route::get('/dashboard', function () {
+    $user = auth()->user();
+    $data = [];
 
-Route::get('layouts/sidebar', function () {
-    return view('example.content.layouts.sidebar', ['title' => 'Sidebar Layout']);
-})->name('layouts.sidebar');
+    if ($user->role === 'admin') {
+        $data['totalProduct'] = \App\Models\Product::count();
+        $data['totalCategory'] = \App\Models\Category::count();
+        $data['totalSupplier'] = \App\Models\Supplier::count();
+        $data['stockInThisMonth'] = \App\Models\StockTransaction::where('type', 'in')->whereMonth('date', now()->month)->sum('quantity');
+        $data['stockOutThisMonth'] = \App\Models\StockTransaction::where('type', 'out')->whereMonth('date', now()->month)->sum('quantity');
+        $data['recentTransactions'] = \App\Models\StockTransaction::with(['product', 'user'])->latest('date')->take(5)->get();
+        $data['lowStockProducts'] = \App\Models\Product::whereColumn('stock', '<=', 'minimum_stock')->take(5)->get();
+        $data['stockByCategory'] = \App\Models\Category::withSum('products', 'stock')->get();
+        $data['recentActivities'] = \App\Models\ActivityLog::with('user')->latest()->take(5)->get();
+    } elseif ($user->role === 'manajer_gudang') {
+        $data['totalProduct'] = \App\Models\Product::count();
+        $data['lowStockProducts'] = \App\Models\Product::whereColumn('stock', '<=', 'minimum_stock')->get();
+        $data['todayIn'] = \App\Models\StockTransaction::where('type', 'in')->whereDate('date', today())->count();
+        $data['todayOut'] = \App\Models\StockTransaction::where('type', 'out')->whereDate('date', today())->count();
+        $data['pendingCount'] = \App\Models\StockTransaction::where('status', 'pending')->count();
+    } elseif ($user->role === 'staff_gudang') {
+        $data['pendingCount'] = \App\Models\StockTransaction::where('status', 'pending')->count();
+        $data['confirmedTodayCount'] = \App\Models\StockTransaction::where('status', 'confirmed')->where('user_id', $user->id)->whereDate('updated_at', today())->count();
+        $data['recentTransactions'] = \App\Models\StockTransaction::with('product')->where('user_id', $user->id)->latest('date')->take(5)->get();
+    }
 
-// CRUD
-Route::get('crud/products', function () {
-    return view('example.content.crud.products', ['title' => 'Product Management']);
-})->name('crud.products');
+    return view('dashboard', $data);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('crud/users', function () {
-    return view('example.content.crud.users', ['title' => 'User Management']);
-})->name('crud.users');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Settings
-Route::get('settings/', function () {
-    return view('example.content.settings', ['title' => 'Settings']);
-})->name('settings');
+// Khusus Admin: kelola kategori, supplier, pengguna, dan aktivitas pengguna
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+    Route::resource('suppliers', SupplierController::class);
+    Route::resource('users', UserController::class);
+    Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+    Route::get('activity-logs/export', [ActivityLogController::class, 'export'])->name('activity-logs.export');
+    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+});
 
-// Pages
-Route::get('pages/pricing/', function () {
-    return view('example.content.pages.pricing', ['title' => 'Pricing Plans']);
-})->name('pages.pricing');
+// Admin & Manajer Gudang: kelola produk, transaksi stok, dan laporan
+Route::middleware(['auth', 'role:admin,manajer_gudang'])->group(function () {
+    Route::resource('products', ProductController::class);
 
-Route::get('pages/maintenance/', function () {
-    return view('example.content.pages.maintenance', ['title' => 'Maintenance Mode']);
-})->name('pages.maintenance');
+    Route::get('stock-transactions', [StockTransactionController::class, 'index'])->name('stock-transactions.index');
+    Route::post('stock-transactions/in', [StockTransactionController::class, 'storeIn'])->name('stock-transactions.in');
+    Route::post('stock-transactions/out', [StockTransactionController::class, 'storeOut'])->name('stock-transactions.out');
+    Route::post('stock-transactions/opname', [StockTransactionController::class, 'opname'])->name('stock-transactions.opname');
 
-Route::get('pages/404/', function () {
-    return view('example.content.pages.404', ['title' => '404 - Page Not Found']);
-})->name('pages.404');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
+    Route::get('reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
+    Route::get('reports/stock', [ReportController::class, 'stock'])->name('reports.stock');
+    Route::get('reports/stock-export', [ReportController::class, 'stockExport'])->name('reports.stock-export');
 
-Route::get('pages/500/', function () {
-    return view('example.content.pages.500', ['title' => '500 - Server Error']);
-})->name('pages.500');
+    Route::get('products-export', [ProductController::class, 'export'])->name('products.export');
+    Route::get('products-import', [ProductController::class, 'importForm'])->name('products.import.form');
+    Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
+});
 
-// Authentication
-Route::get('authentication/sign-in', function () {
-    return view('example.content.authentication.sign-in', ['title' => 'Sign In']);
-})->name('sign-in');
+// Admin, Manajer Gudang, Staff Gudang: konfirmasi transaksi
+Route::middleware(['auth', 'role:admin,manajer_gudang,staff_gudang'])->group(function () {
+    Route::get('stock-transactions/pending', [StockTransactionController::class, 'pending'])->name('stock-transactions.pending');
+    Route::post('stock-transactions/{id}/confirm', [StockTransactionController::class, 'confirm'])->name('stock-transactions.confirm');
+});
 
-Route::get('authentication/sign-up', function () {
-    return view('example.content.authentication.sign-up', ['title' => 'Sign Up']);
-})->name('sign-up');
-
-Route::get('authentication/forgot-password', function () {
-    return view('example.content.authentication.forgot-password', ['title' => 'Forgot Password']);
-})->name('forgot-password');
-
-Route::get('authentication/reset-password', function () {
-    return view('example.content.authentication.reset-password', ['title' => 'Reset Password']);
-})->name('reset-password');
-
-Route::get('authentication/profile-lock', function () {
-    return view('example.content.authentication.profile-lock', ['title' => 'Profile Lock']);
-})->name('profile-lock');
-
-// Playground
-Route::get('playground/stacked', function () {
-    return view('example.content.playground.stacked', ['title' => 'Playground - Stacked Layout']);
-})->name('playground.stacked');
-
-Route::get('playground/sidebar', function () {
-    return view('example.content.playground.sidebar', ['title' => 'Playground - Sidebar Layout']);
-})->name('playground.sidebar');
+require __DIR__.'/auth.php';

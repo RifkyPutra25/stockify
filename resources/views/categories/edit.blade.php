@@ -13,7 +13,7 @@
             <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
             @error('name')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
             @enderror
         </div>
 
@@ -22,13 +22,13 @@
             <textarea name="description" id="description" rows="3"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">{{ old('description', $category->description) }}</textarea>
             @error('description')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
             @enderror
         </div>
 
         <div class="flex gap-2">
             <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                    class="text-white bg-teal-600 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
                 Update
             </button>
             <a href="{{ route('categories.index') }}"

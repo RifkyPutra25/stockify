@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\StockTransaction;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -54,6 +55,46 @@ class ReportController extends Controller
 
         return $pdf->download('laporan-transaksi-' . now()->format('Y-m-d') . '.pdf');
     }
+    public function stock(Request $request)
+{
+    $categories = Category::all();
+
+    $products = Product::with(['category', 'supplier'])
+        ->when($request->category_id, fn($q) => $q->where('category_id', $request->category_id))
+        ->orderBy('name')
+        ->get();
+
+    return view('reports.stock', compact('products', 'categories'));
+}
+
+     public function stockExport(Request $request): StreamedResponse
+{
+    $products = Product::with(['category', 'supplier'])
+        ->when($request->category_id, fn($q) => $q->where('category_id', $request->category_id))
+        ->orderBy('name')
+        ->get();
+
+    $filename = 'laporan-stok-' . now()->format('Y-m-d') . '.csv';
+
+    return response()->streamDownload(function () use ($products) {
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['SKU', 'Nama Produk', 'Kategori', 'Supplier', 'Stok', 'Stok Minimum', 'Status'], ';');
+
+        foreach ($products as $p) {
+            fputcsv($handle, [
+                $p->sku,
+                $p->name,
+                $p->category->name ?? '-',
+                $p->supplier->name ?? '-',
+                $p->stock,
+                $p->minimum_stock,
+                $p->stock <= $p->minimum_stock ? 'Menipis' : 'Aman',
+            ], ';');
+        }
+
+        fclose($handle);
+    }, $filename, ['Content-Type' => 'text/csv']);
+}
 
     private function filteredQuery(Request $request)
     {

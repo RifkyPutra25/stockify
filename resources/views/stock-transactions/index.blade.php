@@ -5,13 +5,13 @@
     <h1 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Transaksi Stok</h1>
 
     @if (session('success'))
-        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-emerald-50" role="alert">
             {{ session('success') }}
         </div>
     @endif
 
     @if ($errors->any())
-        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-rose-50" role="alert">
             @foreach ($errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
@@ -20,7 +20,7 @@
 
     <div class="grid grid-cols-3 gap-4 mb-6 items-stretch">
         <div class="bg-white p-6 rounded-lg shadow flex flex-col">
-            <h2 class="text-lg font-semibold mb-4 text-green-700">Barang Masuk</h2>
+            <h2 class="text-lg font-semibold mb-4 text-emerald-600">Barang Masuk</h2>
             <form action="{{ route('stock-transactions.in') }}" method="POST" class="space-y-3 flex flex-col flex-1">
                 @csrf
                 <div>
@@ -44,14 +44,14 @@
                     <label class="block mb-1 text-sm font-medium text-gray-900">Catatan</label>
                     <input type="text" name="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 </div>
-                <button type="submit" class="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
+                <button type="submit" class="text-white bg-green-700 hover:bg-emerald-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
                     Catat Barang Masuk
                 </button>
             </form>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow flex flex-col">
-            <h2 class="text-lg font-semibold mb-4 text-red-700">Barang Keluar</h2>
+            <h2 class="text-lg font-semibold mb-4 text-rose-600">Barang Keluar</h2>
             <form action="{{ route('stock-transactions.out') }}" method="POST" class="space-y-3 flex flex-col flex-1">
                 @csrf
                 <div>
@@ -75,14 +75,14 @@
                     <label class="block mb-1 text-sm font-medium text-gray-900">Catatan</label>
                     <input type="text" name="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 </div>
-                <button type="submit" class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
+                <button type="submit" class="text-white bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
                     Catat Barang Keluar
                 </button>
             </form>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow flex flex-col">
-            <h2 class="text-lg font-semibold mb-4 text-yellow-700">Stock Opname</h2>
+            <h2 class="text-lg font-semibold mb-4 text-amber-600">Stock Opname</h2>
             <form action="{{ route('stock-transactions.opname') }}" method="POST" class="space-y-3 flex flex-col flex-1">
                 @csrf
                 <div>
@@ -102,7 +102,7 @@
                     <label class="block mb-1 text-sm font-medium text-gray-900">Catatan</label>
                     <input type="text" name="notes" placeholder="Opsional" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 </div>
-                <button type="submit" class="text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
+                <button type="submit" class="text-white bg-yellow-600 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-auto">
                     Catat Penyesuaian
                 </button>
             </form>
@@ -129,11 +129,11 @@
                         <td class="px-6 py-4 font-medium text-gray-900">{{ $trx->product->name }}</td>
                         <td class="px-6 py-4">
                             @if ($trx->type === 'in')
-                                <span class="text-green-700 font-semibold">Masuk</span>
+                                <span class="text-emerald-600 font-semibold">Masuk</span>
                             @elseif ($trx->type === 'out')
-                                <span class="text-red-700 font-semibold">Keluar</span>
+                                <span class="text-rose-600 font-semibold">Keluar</span>
                             @else
-                                <span class="text-yellow-700 font-semibold">Penyesuaian</span>
+                                <span class="text-amber-600 font-semibold">Penyesuaian</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">{{ $trx->quantity }}</td>

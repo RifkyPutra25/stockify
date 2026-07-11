@@ -38,13 +38,13 @@
         </div>
 
         <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
+            <button type="submit" class="text-white bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 font-medium rounded-lg text-sm px-5 py-2.5">
                 Filter
             </button>
-            <a href="{{ route('reports.export', request()->query()) }}" class="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5">
+            <a href="{{ route('reports.export', request()->query()) }}" class="text-white bg-green-700 hover:bg-emerald-700 font-medium rounded-lg text-sm px-5 py-2.5">
                 Export CSV
             </a>
-            <a href="{{ route('reports.export-pdf', request()->query()) }}" class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5">
+            <a href="{{ route('reports.export-pdf', request()->query()) }}" class="text-white bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 font-medium rounded-lg text-sm px-5 py-2.5">
                 Export PDF
             </a>
         </div>
@@ -72,11 +72,11 @@
                     <td class="px-6 py-4">{{ $trx->product->category->name ?? '-' }}</td>
                     <td class="px-6 py-4">
                         @if($trx->type === 'in')
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">Masuk</span>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600">Masuk</span>
                         @elseif($trx->type === 'out')
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700">Keluar</span>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-rose-50 text-rose-600">Keluar</span>
                         @else
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700">Penyesuaian</span>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-amber-600">Penyesuaian</span>
                         @endif
                     </td>
                     <td class="px-6 py-4">{{ $trx->quantity }}</td>

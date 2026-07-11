@@ -5,13 +5,13 @@
     <h1 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Konfirmasi Barang Masuk & Keluar</h1>
 
     @if (session('success'))
-        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-emerald-50" role="alert">
             {{ session('success') }}
         </div>
     @endif
 
     @if ($errors->any())
-        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-rose-50" role="alert">
             @foreach ($errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
@@ -38,9 +38,9 @@
                         <td class="px-6 py-4 font-medium text-gray-900">{{ $trx->product->name }}</td>
                         <td class="px-6 py-4">
                             @if ($trx->type === 'in')
-                                <span class="text-green-700 font-semibold">Masuk</span>
+                                <span class="text-emerald-600 font-semibold">Masuk</span>
                             @else
-                                <span class="text-red-700 font-semibold">Keluar</span>
+                                <span class="text-rose-600 font-semibold">Keluar</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">{{ $trx->quantity }}</td>
@@ -50,7 +50,7 @@
                             <form action="{{ route('stock-transactions.confirm', $trx->id) }}" method="POST"
                                   onsubmit="return confirm('Yakin barang sudah diperiksa dan sesuai?')">
                                 @csrf
-                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-xs px-4 py-2">
+                                <button type="submit" class="text-white bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 font-medium rounded-lg text-xs px-4 py-2">
                                     Konfirmasi
                                 </button>
                             </form>

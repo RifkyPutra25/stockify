@@ -18,7 +18,7 @@
     <li class="mt-4 pt-4 border-t border-gray-200">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="flex items-center w-full p-2 text-base text-red-600 rounded-lg hover:bg-gray-100 group">
+            <button type="submit" class="flex items-center w-full p-2 text-base text-rose-600 rounded-lg hover:bg-gray-100 group">
                 <span class="ml-3">Logout</span>
             </button>
         </form>
