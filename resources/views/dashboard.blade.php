@@ -178,32 +178,44 @@
     </div>
 
     <script>
-        const ctx = document.getElementById('stockChart');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: {!! json_encode($stockByCategory->pluck('name')) !!},
-                datasets: [{
-                    label: 'Jumlah Stok',
-                    data: {!! json_encode($stockByCategory->pluck('products_sum_stock')) !!},
-                    borderColor: '#2563eb',
-                    backgroundColor: '#2563eb',
+    const ctx = document.getElementById('stockChart');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($stockByCategory->pluck('name')) !!},
+            datasets: [
+                {
+                    label: 'Barang Masuk',
+                    data: {!! json_encode($stockByCategory->pluck('name')->map(fn($name) => $inByCategory[$name] ?? 0)) !!},
+                    borderColor: '#16a34a',
+                    backgroundColor: '#16a34a',
                     tension: 0.3,
                     pointRadius: 5,
-                    pointBackgroundColor: '#2563eb',
+                    pointBackgroundColor: '#16a34a',
                     fill: false,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, title: { display: true, text: 'Jumlah Stok (unit)' } },
-                    x: { title: { display: true, text: 'Kategori' } }
+                },
+                {
+                    label: 'Barang Keluar',
+                    data: {!! json_encode($stockByCategory->pluck('name')->map(fn($name) => $outByCategory[$name] ?? 0)) !!},
+                    borderColor: '#dc2626',
+                    backgroundColor: '#dc2626',
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#dc2626',
+                    fill: false,
                 }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true, position: 'top' } },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Jumlah (unit)' } },
+                x: { title: { display: true, text: 'Kategori' } }
             }
-        });
-    </script>
+        }
+    });
+</script>
 
 @elseif(auth()->user()->role === 'manajer_gudang')
 
@@ -324,4 +336,4 @@
     </div>
 
 @endif
-@endsection
+@endsection 

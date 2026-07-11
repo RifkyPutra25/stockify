@@ -43,7 +43,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             $data['lowStockProducts'] = \App\Models\Product::whereColumn('stock', '<=', 'minimum_stock')->take(5)->get();
             $data['stockByCategory'] = \App\Models\Category::withSum('products', 'stock')->get();
             $data['recentActivities'] = \App\Models\ActivityLog::with('user')->latest()->take(5)->get();
-            
+            $data['inByCategory'] = \App\Models\StockTransaction::selectRaw('categories.name as category, SUM(stock_transactions.quantity) as total')
+                ->join('products', 'products.id', '=', 'stock_transactions.product_id')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->where('stock_transactions.type', 'in')
+                ->whereMonth('stock_transactions.date', now()->month)
+                ->groupBy('categories.name')
+                ->pluck('total', 'category');
+
+            $data['outByCategory'] = \App\Models\StockTransaction::selectRaw('categories.name as category, SUM(stock_transactions.quantity) as total')
+
+                ->join('products', 'products.id', '=', 'stock_transactions.product_id')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->where('stock_transactions.type', 'out')
+                ->whereMonth('stock_transactions.date', now()->month)
+                ->groupBy('categories.name')
+                ->pluck('total', 'category');
         } elseif ($user->role === 'manajer_gudang') {
             $data['totalProduct'] = \App\Models\Product::count();
             $data['lowStockProducts'] = \App\Models\Product::whereColumn('stock', '<=', 'minimum_stock')->get();
