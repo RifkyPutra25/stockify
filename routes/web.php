@@ -101,6 +101,7 @@ Route::middleware(['auth', 'role:admin,manajer_gudang'])->group(function () {
 Route::middleware(['auth', 'role:admin,manajer_gudang,staff_gudang'])->group(function () {
     Route::get('stock-transactions/pending', [StockTransactionController::class, 'pending'])->name('stock-transactions.pending');
     Route::post('stock-transactions/{id}/confirm', [StockTransactionController::class, 'confirm'])->name('stock-transactions.confirm');
+    Route::post('stock-transactions/{id}/reject', [StockTransactionController::class, 'reject'])->name('stock-transactions.reject');
 });
 
 require __DIR__.'/auth.php';

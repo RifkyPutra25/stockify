@@ -134,6 +134,12 @@
                                 <span class="text-rose-600 font-semibold">Keluar</span>
                             @else
                                 <span class="text-amber-600 font-semibold">Penyesuaian</span>
+                                @if($trx->status === 'rejected')
+                                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700">Ditolak</span>
+                            @if($trx->rejection_reason)
+                                <p class="text-xs text-gray-400 mt-1">{{ $trx->rejection_reason }}</p>
+                            @endif
+                            @endif
                             @endif
                         </td>
                         <td class="px-6 py-4">{{ $trx->quantity }}</td>

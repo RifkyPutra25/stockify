@@ -92,4 +92,24 @@ class StockService
             ]);
         });
     }
+
+    public function reject(int $transactionId, string $reason)
+{
+    return DB::transaction(function () use ($transactionId, $reason) {
+        $trx = StockTransaction::lockForUpdate()->findOrFail($transactionId);
+
+        if ($trx->status !== 'pending') {
+            throw ValidationException::withMessages([
+                'status' => 'Transaksi ini sudah diproses sebelumnya.',
+            ]);
+        }
+
+        $trx->update([
+            'status' => 'rejected',
+            'rejection_reason' => $reason,
+        ]);
+
+        return $trx;
+    });
+}
 }
