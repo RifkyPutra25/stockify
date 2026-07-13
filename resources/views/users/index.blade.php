@@ -31,13 +31,13 @@
                         @if($user->role === 'admin')
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700">Admin</span>
                         @elseif($user->role === 'manajer_gudang')
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-600">Manajer Gudang</span>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600">Manajer Gudang</span>
                         @else
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">Staff Gudang</span>
                         @endif
                     </td>
                     <td class="px-6 py-4 text-right space-x-2">
-                        <a href="{{ route('users.edit', $user) }}" class="font-medium text-teal-600 hover:underline">Edit</a>
+                        <a href="{{ route('users.edit', $user) }}" class="font-medium text-blue-600 hover:underline">Edit</a>
                         @if($user->id !== auth()->id())
                             <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Yakin ingin menghapus pengguna ini?')">

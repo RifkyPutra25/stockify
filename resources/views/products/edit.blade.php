@@ -133,7 +133,7 @@
                     </div>
                 @endforelse
             </div>
-            <button type="button" id="add-attribute" class="mt-2 text-sm text-teal-600 hover:underline">+ Tambah Atribut</button>
+            <button type="button" id="add-attribute" class="mt-2 text-sm text-blue-600 hover:underline">+ Tambah Atribut</button>
         </div>
 
         <div class="flex gap-2">

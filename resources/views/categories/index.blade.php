@@ -32,7 +32,7 @@
                         <td class="px-6 py-4">{{ $category->description ?? '-' }}</td>
                         <td class="px-6 py-4 text-right space-x-2">
                             <a href="{{ route('categories.edit', $category) }}"
-                               class="font-medium text-teal-600 hover:underline">Edit</a>
+                               class="font-medium text-blue-600 hover:underline">Edit</a>
                             <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
                                 @csrf

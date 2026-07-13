@@ -47,7 +47,7 @@
                     <td class="px-6 py-4">{{ $supplier->phone ?? '-' }}</td>
                     @if(auth()->user()->role === 'admin')
                         <td class="px-6 py-4 text-right space-x-2">
-                            <a href="{{ route('suppliers.edit', $supplier) }}" class="font-medium text-teal-600 hover:underline">Edit</a>
+                            <a href="{{ route('suppliers.edit', $supplier) }}" class="font-medium text-blue-600 hover:underline">Edit</a>
                             <form action="{{ route('suppliers.destroy', $supplier) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Yakin ingin menghapus supplier ini?')">
                                 @csrf

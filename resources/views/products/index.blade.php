@@ -72,7 +72,7 @@
                         </td>
                         <td class="px-6 py-4 text-right space-x-2">
                             <a href="{{ route('products.edit', $product) }}"
-                               class="font-medium text-teal-600 hover:underline">Edit</a>
+                               class="font-medium text-blue-600 hover:underline">Edit</a>
                             <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
                                 @csrf

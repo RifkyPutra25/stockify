@@ -53,7 +53,7 @@
                         @if($log->action === 'create')
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600">Tambah</span>
                         @elseif($log->action === 'update')
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-600">Ubah</span>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600">Ubah</span>
                         @else
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-rose-50 text-rose-600">Hapus</span>
                         @endif

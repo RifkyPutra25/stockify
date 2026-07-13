@@ -14,8 +14,8 @@
     <!-- Stat Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-       -600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Total Produk</p>
@@ -124,7 +124,7 @@
                 @forelse ($recentActivities as $log)
                     <div class="flex items-start gap-3 text-sm">
                         <div class="w-2 h-2 mt-1.5 rounded-full
-                            {{ $log->action === 'create' ? 'bg-emerald-500' : ($log->action === 'update' ? 'bg-teal-500' : 'bg-rose-500') }}">
+                            {{ $log->action === 'create' ? 'bg-emerald-500' : ($log->action === 'update' ? 'bg-blue-500' : 'bg-rose-500') }}">
                         </div>
                         <div>
                             <p class="text-gray-700">{{ $log->description }}</p>
@@ -221,8 +221,8 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-start gap-4">
-            <div class="w-11 h-11 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            <div class="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             </div>
             <div>
                 <p class="text-xs text-gray-500">Total Produk</p>

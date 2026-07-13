@@ -7,7 +7,7 @@
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-xl">
-    <div class="mb-4 p-3 bg-teal-50 text-blue-800 text-sm rounded-lg">
+    <div class="mb-4 p-3 bg-blue-50 text-blue-800 text-sm rounded-lg">
         Format CSV harus memiliki kolom (dipisah titik koma <code>;</code>):
         <code>sku;name;category;supplier;description;purchase_price;selling_price;minimum_stock</code>
     </div>
