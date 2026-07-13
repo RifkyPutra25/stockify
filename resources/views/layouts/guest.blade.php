@@ -11,63 +11,56 @@
 
     <div class="min-h-screen flex">
 
-        <!-- Panel Branding (kiri, disembunyikan di layar kecil) -->
-        <div class="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-blue-700 via-blue-600 to-green-600 overflow-hidden">
-            <!-- Dekorasi lingkaran -->
-            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white/10"></div>
-            <div class="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-white/10 translate-x-1/3 translate-y-1/3"></div>
-            <div class="absolute top-1/3 right-10 w-40 h-40 rounded-full bg-green-400/20"></div>
+        <!-- Panel Branding (Kiri) -->
+        <div class="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-slate-900 via-blue-900 to-emerald-950 overflow-hidden">
+            <!-- Background dekoratif -->
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white/5"></div>
+            <div class="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-white/5 translate-x-1/3 translate-y-1/3"></div>
 
             <div class="relative z-10 flex flex-col justify-between p-12 text-white w-full">
-                <div class="flex items-center gap-3">
-                    <div class="flex items-center justify-center w-11 h-11 rounded-xl bg-white/15">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-8.25-4.5-8.25 4.5m16.5 0l-8.25 4.5m8.25-4.5v9l-8.25 4.5m0-9L3.75 7.5m8.25 4.5v9M3.75 7.5v9l8.25 4.5" />
-                        </svg>
-                    </div>
-                    <span class="text-xl font-bold">Stockify</span>
+                
+                <!-- Logo & Title Rapat (gap-2) -->
+                <div class="flex items-center gap-2">
+                    <img src="{{ asset('images/logo-stockify.png') }}" alt="Logo" class="w-16 h-16 object-contain">
+                    <span class="text-2xl font-bold tracking-wide">Stockify</span>
                 </div>
 
                 <div class="max-w-md">
                     <h1 class="text-3xl font-bold leading-tight mb-4">
                         Kelola stok gudang kamu dengan lebih mudah dan akurat.
                     </h1>
-                    <p class="text-white/80 text-sm leading-relaxed">
+                    <p class="text-white/70 text-sm leading-relaxed">
                         Pantau barang masuk, keluar, dan stok minimum secara real-time. Satu platform untuk seluruh tim gudang kamu.
                     </p>
 
                     <div class="flex items-center gap-6 mt-8">
                         <div>
-                            <p class="text-2xl font-bold">100%</p>
-                            <p class="text-xs text-white/70">Akurasi Stok</p>
+                            <p class="text-2xl font-bold text-emerald-400">100%</p>
+                            <p class="text-xs text-white/60">Akurasi Stok</p>
                         </div>
                         <div class="w-px h-10 bg-white/20"></div>
                         <div>
-                            <p class="text-2xl font-bold">3</p>
-                            <p class="text-xs text-white/70">Level Akses Peran</p>
+                            <p class="text-2xl font-bold text-blue-400">3</p>
+                            <p class="text-xs text-white/60">Level Akses Peran</p>
                         </div>
                         <div class="w-px h-10 bg-white/20"></div>
                         <div>
-                            <p class="text-2xl font-bold">24/7</p>
-                            <p class="text-xs text-white/70">Pemantauan</p>
+                            <p class="text-2xl font-bold text-cyan-400">24/7</p>
+                            <p class="text-xs text-white/60">Pemantauan</p>
                         </div>
                     </div>
                 </div>
 
-                <p class="text-xs text-white/60">&copy; {{ date('Y') }} Stockify. Aplikasi Manajemen Stok Barang.</p>
+                <p class="text-xs text-white/40">&copy; {{ date('Y') }} Stockify. Aplikasi Manajemen Stok Barang.</p>
             </div>
         </div>
 
-        <!-- Panel Form (kanan) -->
+        <!-- Panel Form (Kanan) -->
         <div class="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-white">
             <div class="w-full max-w-sm">
-                <!-- Logo untuk mobile (tampil kalau panel kiri disembunyikan) -->
+                <!-- Logo Mobile -->
                 <div class="flex lg:hidden items-center gap-2 mb-8">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-8.25-4.5-8.25 4.5m16.5 0l-8.25 4.5m8.25-4.5v9l-8.25 4.5m0-9L3.75 7.5m8.25 4.5v9M3.75 7.5v9l8.25 4.5" />
-                        </svg>
-                    </div>
+                    <img src="{{ asset('images/logo-stockify.png') }}" alt="Logo" class="w-14 h-14 object-contain">
                     <span class="text-xl font-bold text-slate-900">Stockify</span>
                 </div>
 
